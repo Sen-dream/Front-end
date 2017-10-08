@@ -62,7 +62,7 @@
 /*头部区域*/
 .header_ad{
   position: relative;
-  z-index: 5;
+  z-index: 10;
   height: 80px;
   background-color: #d50d0d;
 }
@@ -205,6 +205,9 @@
   width: 50%;
   height: 30px;
   border: 1px solid red;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .search_bar.fixed{
   top: 10px;
@@ -520,8 +523,8 @@
 
 .kind{
   width: 595px;
-  float: left;
   margin: 0;
+  float: left;
 }
 .kind:nth-of-type(odd){
   float: right;
@@ -575,7 +578,6 @@
 }
 .kind img:not(:first-child){
   width: 120px;
-  height: 120px;
   -webkit-transition: transform 0.5s;
   -o-transition: transform 0.5s;
   transition: transform 0.5s;
@@ -736,12 +738,23 @@ main, .container{
   margin: 0 auto;
 }
 
-@media (min-width: 600px) and (max-width: 1199px) {
+@media (min-width: 1200px) {
+  main, .container{
+    width: 1200px;
+  }
+
+  .-lg-hidden{
+    display: none!important;
+  }
+}
+
+/*@media (min-width: 600px) and (max-width: 1199px) {*/
+@media (max-width: 1199px) {
   main, .container{
     width: 600px;
   }
 
-  .-sm-hidden{
+  .-md-hidden{
     display: none!important;
   }
 
@@ -782,13 +795,107 @@ main, .container{
   }
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 599px){
   main, .container{
-    width: 1200px;
+    width: 100vw;
   }
 
-  .-lg-hidden{
+  .-sm-hidden{
     display: none!important;
   }
+
+  .main_header{
+    height: 60px;
+  }
+  .main_header img{
+    display: none;
+  }
+
+  .search_bar{
+    left: 0;
+    width: 100vw;
+    top: 15px;
+  }
+
+  .slider{
+    width: 100vw;
+    height: 50vw;
+  }
+
+  .kind{
+    width: 100vw;
+  }
+  .kind_title{
+    height: 10vw;
+    line-height: 10vw;
+  }
+  .kind_title h3{
+    font-size: 5vw;
+  }
+  .kind ul{
+    margin: 0 auto;
+    width: 99vw;
+  }
+/*  .kind ul::after{
+    content: "";
+    height: 0;
+    display: block;
+    visibility: hidden;
+    clear: both;
+  }*/
+  .kind li{
+    width: 33vw;
+    height: 40vw;
+    padding-top: 5vw;
+  }
+  .kind li:first-child{
+    width: 33vw;
+    height: 79.9vw;
+  }
+  .kind li:nth-child(6){
+    width: 33vw;
+  }
+  .kind img:not(:first-child){
+    width: 20vw;
+  }
+  .kind li p{
+    font-size: 1vw;
+  }
+  .kind li p:first-child{
+    font-size: 3vw;
+  }
+
+  footer dl{
+    width: 20%;
+    margin-right: 0;
+  }
+  footer dl:first-child{
+    margin-left: 0;
+  }
+
+  .more li{
+    width: 50vw;
+    height: 68vw;
+    margin-right: 0;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 1vw;
+  }
+  .more li img{
+    width: 48vw;
+  }
+  .more li p{
+    font-size: 1vw;
+    line-height: 5vw;
+    height: 10vw;
+  }
+
+
+  /*width影响（已隐藏）*/
+  .hot{}
+  #nav_main{}
+  #nav_aside_detail{}
+  .slider span{}
 }
+
 

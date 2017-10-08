@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 	<title>京东(JD.COM)</title>
 	<link rel="icon" href="images/favicon.ico">
 	<link rel="stylesheet" href="css/reset.css">
@@ -9,7 +10,7 @@
 </head>
 <body>
 	<!-- 头部区域 -->
-	<header>
+	<header class="-sm-hidden">
 		<!-- 头部下滑广告 -->
 		<div class="header_ad">
 			<a></a>
@@ -17,7 +18,7 @@
 		</div>
 
 		<!-- 头部工具栏 -->
-		<div class="header_tools">
+		<div class="header_tools -sm-hidden">
 			<div class="container">
 				<ul class="area">
 					<li><a>北京</a></li>
@@ -44,9 +45,9 @@
 
 	<!-- 内容区域 -->
 	<main>
-		<!-- 内容顶部 -->
+		<!-- 内容头部 -->
 		<div class="main_header">
-			<h1 id="logo"><a title="京东"></a></h1>
+			<h1 id="logo" class="-sm-hidden"><a title="京东"></a></h1>
 			<div class="search_bar_wrap">
 				<div class="container">
 					<div>
@@ -59,7 +60,7 @@
 				</div>
 			</div>
 
-			<ul class="hot">
+			<ul class="hot -sm-hidden">
 				<li><a>0元试用</a></li>
 				<li><a>养殖用品</a></li>
 				<li><a>999-500</a></li>
@@ -69,17 +70,17 @@
 			</ul>
 
 			<!-- 主导航 -->
-			<nav id="nav_main">
+			<nav id="nav_main" class="-sm-hidden">
 				<ul>
 					<li><a>秒杀</a></li>
 					<li><a>优惠券</a></li>
 					<li><a>闪购</a></li>
 					<li><a>拍卖</a></li>
-					<li class="-sm-hidden"><a>服装城</a></li>
-					<li class="-sm-hidden"><a>京东超市</a></li>
-					<li class="-sm-hidden"><a>生鲜</a></li>
-					<li class="-sm-hidden"><a>全球购</a></li>
-					<li class="-sm-hidden"><a>京东金融</a></li>
+					<li class="-md-hidden"><a>服装城</a></li>
+					<li class="-md-hidden"><a>京东超市</a></li>
+					<li class="-md-hidden"><a>生鲜</a></li>
+					<li class="-md-hidden"><a>全球购</a></li>
+					<li class="-md-hidden"><a>京东金融</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -204,7 +205,7 @@
 					</ul>
 				
 					<!-- 侧导航详细信息 -->
-					<ul id="nav_aside_detail" class="-sm-hidden">
+					<ul id="nav_aside_detail" class="-md-hidden">
 						<li>
 							<dl>
 								<dt><a>理财 &gt;</a></dt>
@@ -284,8 +285,8 @@
 					<li></li>
 					<li></li>
 				</ol>
-				<span class="prev">&lt;</span>
-				<span class="next">&gt;</span>
+				<span class="prev -sm-hidden">&lt;</span>
+				<span class="next -sm-hidden">&gt;</span>
 			</div>
 
 		</div>
@@ -597,7 +598,7 @@
         </div>
 
         <!-- 跟随导航 -->
-        <ul id="nav_follow">
+        <ul id="nav_follow" class="-sm-hidden">
         	<li>服饰运动</li>
         	<li>生活家装</li>
         	<li>数码汽车</li>
@@ -608,7 +609,7 @@
     </main>
 
     <!-- 底部区域 -->
-    <footer>
+    <footer class="-sm-hidden">
     	<div class="container">
     		<div class="help">
     			<dl>

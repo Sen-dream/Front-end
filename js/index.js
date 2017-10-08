@@ -273,4 +273,16 @@ app.util = {
 		}
 	}
 
+	// // 响应式根据width调节height
+	// var kindLiArr = document.querySelectorAll('.kind li');
+	// for (var i = 0; i < kindLiArr.length; i++){
+	// 	console.log(kindLiArr[i].offsetWidth);
+	// 	kindLiArr[i].style.height = (kindLiArr[2].offsetWidth * (180 / 200)) + 'px';
+	// }
+	// var kindFirstLiArr = document.querySelectorAll('.kind li:first-child');
+	// for (var i = 0; i < kindLiArr.length; i++){
+	// 	console.log(kindFirstLiArr[i].offsetWidth);
+	// 	kindFirstLiArr[i].style.height = (kindFirstLiArr[i].offsetWidth * (335 / 195)) + 'px';
+	// }
+
 }(app.util)
