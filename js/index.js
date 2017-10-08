@@ -1,3 +1,7 @@
+/**
+ * @author Sen-dream
+ */
+
 var app = {
 	util: {}
 };
@@ -7,21 +11,21 @@ app.util = {
 		return (node || document).querySelector(selector);
 	},
 
-	// 检查类名是否存在
+	/* 检查类名是否存在 */
 	hasClass: function (element, cls) {
 		var elementClassNamePlusBlank = ' ' + element.className + ' ';
 		var clsPlusBlank = ' ' + cls + ' ';
 		return new RegExp(clsPlusBlank).test(elementClassNamePlusBlank);
 	},
 
-	// 添加类名
+	/* 添加类名 */
 	addClass: function (element, cls) {
 		if (!app.util.hasClass(element, cls)){
 			element.className += ' ' + cls;
 		}
 	},
 
-	// 移除类名
+	/* 移除类名 */
 	removeClass: function (element, cls) {
 		if (app.util.hasClass(element, cls)){
 			var elementClassNamePlusBlank = ' ' + element.className + ' ';
@@ -31,7 +35,7 @@ app.util = {
 		}
 	},
 
-	// 切换类名
+	/* 切换类名 */
 	toggleClass: function (element, cls) {
 		if (app.util.hasClass(element, cls)){
 			app.util.removeClass(element, cls);
@@ -55,21 +59,22 @@ app.util = {
 		addClass(ad, 'slideUp');
 		setTimeout(function () {
 			$('header').removeChild(ad);
-		}, 2000)
-	})
+		}, 2000);
+	});
 
 	// 侧导航展开（小分辨率下）
 	var navAsideWrap = $('.nav_aside_wrap');
 	$('.open').addEventListener('click', function () {
 		toggleClass(navAsideWrap, 'active');
-	})
+	});
 
 
 	// 轮播图
-	!function slider() {
+	!function () {
 		var order = 0;
 		var currentImgLi = $('.slider_img>li:nth-child(' + (order + 1) + ')');
 		var currentNavLi = $('.slider_nav>li:nth-child(' + (order + 1) + ')');
+		var slider = $('.slider');
 
 		function change(newOrder) {
 			order = (newOrder == undefined) ? ((order + 1) % 6) : newOrder;
@@ -88,7 +93,15 @@ app.util = {
 		}
 
 		// 自动播放
-		setInterval(change, 3000);
+		var sliderTimer = setInterval(change, 3000);
+
+		// 鼠标置于轮播图上时暂停自动播放
+		slider.addEventListener('mouseover', function () {
+			clearInterval(sliderTimer);
+		});
+		slider.addEventListener('mouseout', function () {
+			sliderTimer = setInterval(change, 3000);
+		})
 
 		// 向左
 		$('.prev').addEventListener('click', function () {
@@ -105,6 +118,29 @@ app.util = {
 				change(i);
 			})
 		}
+
+		// 触摸屏左右滑动（滑动后重新开始定时器）
+		var startX;
+		var changedX;
+		slider.addEventListener('touchstart', function (ev) {
+			clearInterval(sliderTimer);
+			startX = ev.touches[0].pageX;
+		});
+		slider.addEventListener('touchmove', function (ev) {
+			changedX = ev.touches[0].pageX;
+		});
+		slider.addEventListener('touchend', function (ev) {
+			if (changedX - startX < 0){
+				// 上一张
+				change((order - 1 + 6) % 6);
+			}else{
+				// 下一张
+				change();
+			}
+			
+			sliderTimer = setInterval(change, 3000);
+		});
+
 	}();
 
 	
@@ -126,8 +162,7 @@ app.util = {
 	var searchBarWrap = $('.search_bar_wrap');
 	var searchBar = $('.search_bar');
 
-
-	// 模拟获得新商品数据
+	/* 模拟获得新商品数据 */
 	function getNewData(numOfNewLi) {
 		messageOfNewLi = [];
 		var randomLi;
@@ -153,7 +188,7 @@ app.util = {
 		}
 	}
 
-	// 添加新加载商品
+	/* 添加新加载商品 */
 	function addNewLi(numOfNewLi) {
 		getNewData(numOfNewLi);
 
@@ -187,10 +222,18 @@ app.util = {
 	}
 
 	var followNavArr = document.querySelectorAll('#nav_follow li');
-	var positionArr = [$('.clothes').offsetTop, $('.life').offsetTop, $('.digit').offsetTop, $('.more_wrap').offsetTop, 100000];
 
-	for (var i = 0; i < positionArr.length; i++){
-		positionArr[i] -= heightToTop;
+	/* 获取栏目位置 */
+	function getPosition(index) {
+		var position;
+		switch (index){
+			case 0: position = $('.clothes').offsetTop - heightToTop; break;
+			case 1: position = $('.life').offsetTop - heightToTop; break;
+			case 2: position = $('.digit').offsetTop - heightToTop; break;
+			case 3: position = $('.more_wrap').offsetTop - heightToTop; break;
+			case 4: position = 100000;
+		}
+		return position;
 	}
 
 	// 屏幕滚动触发事件
@@ -210,9 +253,8 @@ app.util = {
 			$('.loading').style.display = 'none';
 		}
 
-
 		// 跟随导航显示/隐藏
-		if (window.pageYOffset >= positionArr[0]){
+		if (window.pageYOffset >= getPosition(0)){
 			followNav.style.display = 'block';
 			addClass(searchBarWrap, 'fixed');
 			addClass(searchBar, 'fixed');
@@ -222,30 +264,28 @@ app.util = {
 			removeClass(searchBar, 'fixed');
 		}
 
-		
 		// 跟随导航显示当前位置
-		for (var i = 0; i < positionArr.length; i++){
-			if (window.pageYOffset >= positionArr[i] && window.pageYOffset < positionArr[i + 1]){
+		for (var i = 0; i < 5; i++){	// 4个栏目 + 底部标记
+			if (window.pageYOffset >= getPosition(i) && window.pageYOffset < getPosition(i + 1)){
 				addClass(followNavArr[i], 'active');
 			}else{
 				removeClass(followNavArr[i], 'active');
 			}
 		}
 
-
-	})
+	});
 
 	// 跟随导航点击事件
 	for (let i = 0; i < followNavArr.length - 1; i++){
 		followNavArr[i].addEventListener('click', function () {
-			scrollAnimate(positionArr[i]);
+			scrollAnimate(getPosition(i));
 		});
 	}
 	followNavArr[followNavArr.length - 1].addEventListener('click', function () {
 		scrollAnimate(0);
 	});
 
-	// 滚动动画
+	/* 滚动动画 */
 	function scrollAnimate(position) {
 		var totalScrollDistance = position - window.pageYOffset;
 		if (window.pageYOffset < position){
@@ -273,16 +313,4 @@ app.util = {
 		}
 	}
 
-	// // 响应式根据width调节height
-	// var kindLiArr = document.querySelectorAll('.kind li');
-	// for (var i = 0; i < kindLiArr.length; i++){
-	// 	console.log(kindLiArr[i].offsetWidth);
-	// 	kindLiArr[i].style.height = (kindLiArr[2].offsetWidth * (180 / 200)) + 'px';
-	// }
-	// var kindFirstLiArr = document.querySelectorAll('.kind li:first-child');
-	// for (var i = 0; i < kindLiArr.length; i++){
-	// 	console.log(kindFirstLiArr[i].offsetWidth);
-	// 	kindFirstLiArr[i].style.height = (kindFirstLiArr[i].offsetWidth * (335 / 195)) + 'px';
-	// }
-
-}(app.util)
+}(app.util);
