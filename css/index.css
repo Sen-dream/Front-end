@@ -871,6 +871,8 @@ footer dd a:hover{
     bottom: 0;
     left: 0;
     background-color: #fff;
+    -webkit-box-shadow: 0 0 10px 0 #ccc;
+    box-shadow: 0 0 10px 0 #ccc;
   }
   #nav_bottom_mobile li{
     width: 20vw;
@@ -878,13 +880,8 @@ footer dd a:hover{
     float: left;
     text-align: center;
   }
-  #nav_bottom_mobile img{
-    width: 100%;
-  }
-  #nav_bottom_mobile li:nth-child(3) img{
-    position: relative;
-    width: 15vw;
-    bottom: 10px;
+  #nav_bottom_mobile *{
+    height: 100%;
   }
 
   .more li{
