@@ -204,6 +204,7 @@ main, .container{
   top: 5px;
 }
 
+
 .search_bar{
   position: absolute;
   top: 30px;
@@ -736,7 +737,7 @@ footer dd a:hover{
   }
 }
 
-@media (max-width: 1199px) {
+@media (min-width: 600px) and (max-width: 1199px) {
   main, .container{
     width: 600px;
   }
@@ -745,7 +746,18 @@ footer dd a:hover{
     display: none!important;
   }
 
-  /*移动端导航*/
+  .slider{
+    width: 100%;
+  }
+
+  .more li{
+    width: 295px;
+    margin: 0 5px 5px 0;
+  }
+}
+
+@media (max-width: 1199px){
+    /*移动端导航*/
   .nav_aside_wrap{
     height: 30px;
     width: 100%;
@@ -783,15 +795,6 @@ footer dd a:hover{
   }
   #nav_main_mobile a:active li{
     background-color: #999;
-  }
-
-  .slider{
-    width: 100%;
-  }
-
-  .more li{
-    width: 295px;
-    margin: 0 5px 5px 0;
   }
 }
 
@@ -884,7 +887,6 @@ footer dd a:hover{
   .more li{
     width: 50vw;
     height: 68vw;
-    margin-right: 0;
     border: 1px solid #eee;
     margin: 0;
     padding: 1vw;

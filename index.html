@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<base target="_blank">
 	<title>京东(JD.COM)</title>
 	<link rel="icon" href="images/favicon.ico">
 	<link rel="stylesheet" href="css/reset.css">
@@ -47,7 +48,7 @@
 	<main>
 		<!-- 内容头部 -->
 		<div class="main_header">
-			<h1 id="logo" class="-sm-hidden"><a title="京东"></a></h1>
+			<h1 id="logo" class="-sm-hidden"><a href="" title="京东" target="_self"></a></h1>
 			<div class="search_bar_wrap">
 				<div class="container">
 					<div>
@@ -88,7 +89,7 @@
 		<!-- 侧导航 && 轮播图 -->
 		<div class="main_show">
 			<!-- 侧导航 -->		
-			<nav id="nav_aside" class="-md-hidden">
+			<nav id="nav_aside" class="-md-hidden -sm-hidden">
 				<ul id="nav_aside_summary">
 					<li>
 						<a>家用电器</a>
@@ -264,7 +265,7 @@
 			<!-- 移动端导航 -->
 			<div class="nav_aside_wrap">
 				<nav id="nav_main_mobile" class="-lg-hidden">
-					<span class="open -lg-hidden">〓</span>
+					<span class="open">〓</span>
 					<ul>
 						<a><li>家用电器</li></a>
 						<a><li>手机 / 运营商 / 数码</li></a>
@@ -684,7 +685,7 @@
     		</div>
 
     		<!-- 移动端底部导航 -->
-    		<nav id="nav_bottom_mobile">
+    		<nav id="nav_bottom_mobile" class="-lg-hidden -md-hidden">
     			<ul>
     				<li><a><img src="images/bottom1.png" alt=""></a></li>
     				<li><a><img src="images/bottom2.png" alt=""></a></li>
