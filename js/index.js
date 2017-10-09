@@ -7,8 +7,21 @@ var app = {
 };
 
 app.util = {
-	$: function (selector, node) {
-		return (node || document).querySelector(selector);
+	$: function (selector) {
+		var rquickExpr = /^(?:\.([\w-]+)|#([\w-]+)|(\w+))$/;
+		var match = rquickExpr.exec(selector);
+
+		if (match){
+			if ( (m = match[1]) ){
+				return document.getElementsByClassName(m)[0];
+			}else if ( (m = match[2]) ){
+				return document.getElementById(m);
+			}else if ( (m = match[3]) ){
+				return document.getElementsByTagName(m)[0];
+			}
+		}
+
+		return document.querySelector(selector);
 	},
 
 	/* 检查类名是否存在 */
