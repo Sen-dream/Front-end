@@ -199,9 +199,12 @@ main, .container{
   animation: slideDown 1s forwards;
 }
 .search_bar_wrap img{
-  display: block;
+  display: none;
   position: absolute;
   top: 5px;
+}
+.search_bar_wrap.fixed img{
+  display: block;
 }
 
 
