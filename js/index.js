@@ -107,7 +107,7 @@ app.util = {
 		}
 
 		// 轮播间隔
-		const sliderChangeTime = 3000;
+		var sliderChangeTime = 3000; /* const */
 
 		// 自动播放
 		var sliderTimer = setInterval(change, sliderChangeTime);
@@ -165,7 +165,7 @@ app.util = {
 
 	}();
 
-	const
+	var	/* const */
 		// 每次加载商品的数量
 		numOfNewLi = 20,
 		// “猜您喜欢”列表最大高度
