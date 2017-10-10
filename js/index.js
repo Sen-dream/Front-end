@@ -130,10 +130,15 @@ app.util = {
 		});
 		// 跳转
 		var arrNavLi = document.querySelectorAll('.slider_nav>li');
-		for (let i = 0; i < arrNavLi.length; i++){
-			arrNavLi[i].addEventListener('mouseover', function () {
-				change(i);
-			})
+		// 兼容ie
+		for (var i = 0; i < arrNavLi.length; i++){
+			!function (i) {
+
+				arrNavLi[i].addEventListener('mouseover', function () {
+					change(i);
+				});
+				
+			}(i);
 		}
 
 		// 触摸屏左右滑动（滑动后重新开始定时器）
@@ -238,11 +243,7 @@ app.util = {
 
 			li.appendChild(a);
 
-			li.innerHTML += `<span class="border_top"></span>
-			<span class="border_left"></span>
-			<span class="border_right"></span>
-			<span class="border_bottom"></span>
-			`;
+			li.innerHTML += '<span class="border_top"></span><span class="border_left"></span><span class="border_right"></span><span class="border_bottom"></span>';
 
 			fragment.appendChild(li);
 		}
@@ -315,21 +316,27 @@ app.util = {
 		stopCurrentScroll = false;
 
 	// 跟随导航点击事件
-	for (let i = 0; i < followNavArr.length - 1; i++){
-		followNavArr[i].addEventListener('click', function () {
-			if (isAnimationRunning){
-				stopCurrentScroll = true;
-				var wait = setInterval(function () {
-					if (!isAnimationRunning){
-						stopCurrentScroll = false;
-						clearInterval(wait);
-						runScrollAnimation(getPosition(i));
-					}
+	// 兼容ie
+	for (var i = 0; i < followNavArr.length - 1; i++){
+
+		!function (i) {
+			
+			followNavArr[i].addEventListener('click', function () {
+				if (isAnimationRunning){
+					stopCurrentScroll = true;
+					var wait = setInterval(function () {
+						if (!isAnimationRunning){
+							stopCurrentScroll = false;
+							clearInterval(wait);
+							runScrollAnimation(getPosition(i));
+						}
 				}, 50);	// 每50ms判断一次动画是否已停止
-			}else{
-				runScrollAnimation(getPosition(i));
-			}
-		});
+				}else{
+					runScrollAnimation(getPosition(i));
+				}
+			});
+
+		}(i);
 	}
 	followNavArr[followNavArr.length - 1].addEventListener('click', function () {
 		if (isAnimationRunning){
