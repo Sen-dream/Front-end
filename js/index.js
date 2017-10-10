@@ -11,6 +11,7 @@ app.util = {
 		var rquickExpr = /^(?:\.([\w-]+)|#([\w-]+)|(\w+))$/;
 		var match = rquickExpr.exec(selector);
 
+		// 若选择器足够简单，选择DOM的get方法
 		if (match){
 			if ( (m = match[1]) ){
 				return document.getElementsByClassName(m)[0];
@@ -59,11 +60,11 @@ app.util = {
 }
 
 !function (util) {
-	var $ = util.$;
-	var hasClass = util.hasClass;
-	var addClass = util.addClass;
-	var removeClass = util.removeClass;
-	var toggleClass = util.toggleClass;
+	var $ = util.$,
+		hasClass = util.hasClass,
+		addClass = util.addClass,
+		removeClass = util.removeClass,
+		toggleClass = util.toggleClass;
 	
 
 	// 关闭顶部广告（上滑效果）
@@ -72,7 +73,7 @@ app.util = {
 		addClass(ad, 'slideUp');
 		setTimeout(function () {
 			$('header').removeChild(ad);
-		}, 2000);
+		}, 2000);	// 动画执行完毕后删除元素
 	});
 
 	// 侧导航展开（小分辨率下）
@@ -84,10 +85,10 @@ app.util = {
 
 	// 轮播图
 	!function () {
-		var order = 0;
-		var currentImgLi = $('.slider_img>li:nth-child(' + (order + 1) + ')');
-		var currentNavLi = $('.slider_nav>li:nth-child(' + (order + 1) + ')');
-		var slider = $('.slider');
+		var order = 0,
+			currentImgLi = $('.slider_img>li:nth-child(' + (order + 1) + ')'),
+			currentNavLi = $('.slider_nav>li:nth-child(' + (order + 1) + ')'),
+			slider = $('.slider');
 
 		function change(newOrder) {
 			order = (newOrder == undefined) ? ((order + 1) % 6) : newOrder;
@@ -105,15 +106,18 @@ app.util = {
 			currentNavLi = newNavLi;
 		}
 
+		// 轮播间隔
+		const sliderChangeTime = 3000;
+
 		// 自动播放
-		var sliderTimer = setInterval(change, 3000);
+		var sliderTimer = setInterval(change, sliderChangeTime);
 
 		// 鼠标置于轮播图上时暂停自动播放
 		slider.addEventListener('mouseover', function () {
 			clearInterval(sliderTimer);
 		});
 		slider.addEventListener('mouseout', function () {
-			sliderTimer = setInterval(change, 3000);
+			sliderTimer = setInterval(change, sliderChangeTime);
 		})
 
 		// 向左
@@ -133,8 +137,8 @@ app.util = {
 		}
 
 		// 触摸屏左右滑动（滑动后重新开始定时器）
-		var startX;
-		var changedX;
+		var startX,
+			changedX;
 		slider.addEventListener('touchstart', function (ev) {
 			clearInterval(sliderTimer);
 			startX = ev.touches[0].pageX;
@@ -151,34 +155,36 @@ app.util = {
 				change();
 			}
 			
-			sliderTimer = setInterval(change, 3000);
+			sliderTimer = setInterval(change, sliderChangeTime);
 		});
 
 	}();
 
-	
-	// 每次加载商品的数量
-	const numOfNewLi = 20;
-	// “猜您喜欢”列表最大高度
-	var maxHeightOfUl = (window.innerWidth >= 1200) ? 3000 : 8000;
-	// 新加载商品的信息
-	var messageOfNewLi = [];
-	// 正在加载标记
-	var isLoading = false;
-	// 页脚高度
-	var heightOfFooter = $('footer').offsetHeight;
-	// 预留高度
-	var heightToTop = 200;
+	const
+		// 每次加载商品的数量
+		numOfNewLi = 20,
+		// “猜您喜欢”列表最大高度
+		maxHeightOfUl = (window.innerWidth >= 1200) ? 3000 : 8000,	// 最多懒加载3次
+		// 预留高度
+		heightToTop = 200;
 
-	var ul = $('.more');
-	var followNav = $('#nav_follow');
-	var searchBarWrap = $('.search_bar_wrap');
-	var searchBar = $('.search_bar');
+	var
+		// 新加载商品的信息
+		messageOfNewLi = [],
+		// 正在加载标记
+		isLoading = false,
+		// 页脚高度
+		heightOfFooter = $('footer').offsetHeight,
+
+		ul = $('.more'),
+		followNav = $('#nav_follow'),
+		searchBarWrap = $('.search_bar_wrap'),
+		searchBar = $('.search_bar');
 
 	/* 模拟获得新商品数据 */
 	function getNewData(numOfNewLi) {
-		messageOfNewLi = [];
-		var randomLi;
+		var newMessage = [],
+			randomLi;
 		for (var i = 0; i < numOfNewLi; i++){
 
 			if (Math.floor(Math.random() * 2) === 0){
@@ -197,20 +203,28 @@ app.util = {
 				};
 			}
 
-			messageOfNewLi.push(randomLi);
+			newMessage.push(randomLi);
 		}
+
+		return newMessage;
 	}
 
 	/* 添加新加载商品 */
 	function addNewLi(numOfNewLi) {
-		getNewData(numOfNewLi);
+		messageOfNewLi = getNewData(numOfNewLi);
+
+		var
+			// 减少全局查找
+			doc = document,
+			// 最小化现场更新
+			fragment = doc.createDocumentFragment();
 
 		for (var i = 0; i < numOfNewLi; i++){
-			var li = document.createElement('li');
-			var a = document.createElement('a');
-			var img = document.createElement('img');
-			var titleP = document.createElement('p');
-			var priceP = document.createElement('p');
+			var li = doc.createElement('li'),
+				a = doc.createElement('a'),
+				img = doc.createElement('img'),
+				titleP = doc.createElement('p'),
+				priceP = doc.createElement('p');
 
 			img.src = messageOfNewLi[i].img;
 			titleP.textContent = messageOfNewLi[i].title;
@@ -230,21 +244,27 @@ app.util = {
 			<span class="border_bottom"></span>
 			`;
 
-			ul.appendChild(li);
+			fragment.appendChild(li);
 		}
+
+		ul.appendChild(fragment);
 	}
 
-	var followNavArr = document.querySelectorAll('#nav_follow li');
+	var followNavArr = document.querySelectorAll('#nav_follow li'),
+		clothes = $('.clothes'),
+		life = $('.life'),
+		digit = $('.digit'),
+		moreWrap = $('.more_wrap');
 
 	/* 获取栏目位置 */
 	function getPosition(index) {
 		var position;
 		switch (index){
-			case 0: position = $('.clothes').offsetTop - heightToTop; break;
-			case 1: position = $('.life').offsetTop - heightToTop; break;
-			case 2: position = $('.digit').offsetTop - heightToTop; break;
-			case 3: position = $('.more_wrap').offsetTop - heightToTop; break;
-			case 4: position = 100000;
+			case 0: position = clothes.offsetTop - heightToTop; break;
+			case 1: position = life.offsetTop - heightToTop; break;
+			case 2: position = digit.offsetTop - heightToTop; break;
+			case 3: position = moreWrap.offsetTop - heightToTop; break;
+			case 4: position = 100000;	// 极大量
 		}
 		return position;
 	}
@@ -288,42 +308,73 @@ app.util = {
 
 	});
 
+	var
+		// 滚动动画执行中标记
+		isAnimationRunning = false,
+		// 强制停止当前滚动
+		stopCurrentScroll = false;
+
 	// 跟随导航点击事件
 	for (let i = 0; i < followNavArr.length - 1; i++){
 		followNavArr[i].addEventListener('click', function () {
-			scrollAnimate(getPosition(i));
+			if (isAnimationRunning){
+				stopCurrentScroll = true;
+				var wait = setInterval(function () {
+					if (!isAnimationRunning){
+						stopCurrentScroll = false;
+						clearInterval(wait);
+						runScrollAnimation(getPosition(i));
+					}
+				}, 50);	// 每50ms判断一次动画是否已停止
+			}else{
+				runScrollAnimation(getPosition(i));
+			}
 		});
 	}
 	followNavArr[followNavArr.length - 1].addEventListener('click', function () {
-		scrollAnimate(0);
+		if (isAnimationRunning){
+			stopCurrentScroll = true;
+			var wait = setInterval(function () {
+				if (!isAnimationRunning){
+					stopCurrentScroll = false;
+					clearInterval(wait);
+					runScrollAnimation(0);
+				}
+			}, 50);
+		}else{
+			runScrollAnimation(0);
+		}	
 	});
 
 	/* 滚动动画 */
-	function scrollAnimate(position) {
+	function runScrollAnimation(position) {
 		var totalScrollDistance = position - window.pageYOffset;
+		isAnimationRunning = true;
 		if (window.pageYOffset < position){
 			var scrollTimer = setInterval(function () {
-				for (var i = 0; i < 50; i++){
-					if (window.pageYOffset < position){
+				for (var i = 0; i < 50; i++){	// 每个时间间隔滚动50px，每滚动1px执行一次判断
+					if (window.pageYOffset < position && !stopCurrentScroll){
 						window.scroll(0, window.pageYOffset + 1);
 					}else{
 						clearInterval(scrollTimer);
+						isAnimationRunning = false;
 						break;
 					}
 				}
-			}, 1000 / totalScrollDistance);
+			}, 1000 / totalScrollDistance);	// 相同距离滚动时间相同
 		}else if (window.pageYOffset > position){
 			var scrollTimer = setInterval(function () {
 				for (var i = 0; i < 50; i++){
-					if (window.pageYOffset - 10  > position){	// 提前结束，避免滚动到上一栏目
+					if (window.pageYOffset - 10  > position && !stopCurrentScroll){	// 提前结束，避免滚动到上一栏目
 						window.scroll(0, window.pageYOffset - 1);
 					}else{
 						clearInterval(scrollTimer);
+						isAnimationRunning = false;
 						break;
 					}
 				}
 			}, 1000 / totalScrollDistance);
-		}
+		}	
 	}
 
 }(app.util);
